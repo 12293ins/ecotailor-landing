@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco Tailor — AI Learning for Everyone</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+--forest: #1A3C2E;
+--green: #2C7A4B;
+--leaf: #4CAF70;
+--mint: #A8E6BF;
+--gold: #D4A843;
+--cream: #F8FAF9;
+--white: #FFFFFF;
+--text: #1A2B22;
+--muted: #5A7065;
+--border: #D6E8DC;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+font-family: 'Inter', sans-serif;
+background: var(--cream);
+color: var(--text);
+line-height: 1.6;
+overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+display: flex; align-items: center; justify-content: space-between;
+padding: 1.1rem 5%;
+background: rgba(26, 60, 46, 0.96);
+backdrop-filter: blur(12px);
+}
+
+.logo {
+font-family: 'Syne', sans-serif;
+font-weight: 800; font-size: 1.4rem;
+color: var(--white);
+letter-spacing: 0.04em;
+}
+.logo span { color: var(--gold); }
+
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color .2s; }
+nav a:hover { color: var(--mint); }
+
+.nav-cta {
+background: var(--gold); color: var(--forest) !important;
+padding: 0.5rem 1.25rem; border-radius: 100px;
+font-weight: 600 !important; transition: background .2s, transform .15s !important;
+}
+.nav-cta:hover { background: #e8b94d !important; transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+min-height: 100vh;
+display: grid; place-items: center;
+background: var(--forest);
+position: relative; overflow: hidden;
+padding: 8rem 5% 5rem;
+}
+
+/* Organic leaf shapes */
+.hero::before, .hero::after {
+content: ''; position: absolute; border-radius: 50%;
+pointer-events: none;
+}
+.hero::before {
+width: 55vw; height: 55vw;
+top: -20%; right: -15%;
+background: radial-gradient(circle, rgba(76,175,112,0.18) 0%, transparent 70%);
+}
+.hero::after {
+width: 35vw; height: 35vw;
+bottom: -10%; left: -8%;
+background: radial-gradient(circle, rgba(168,230,191,0.12) 0%, transparent 70%);
+}
+
+.hero-inner {
+max-width: 900px; text-align: center; position: relative; z-index: 1;
+}
+
+.hero-badge {
+display: inline-flex; align-items: center; gap: 0.5rem;
+background: rgba(76,175,112,0.15); border: 1px solid rgba(76,175,112,0.3);
+color: var(--mint); font-size: 0.8rem; font-weight: 600;
+padding: 0.35rem 1rem; border-radius: 100px;
+letter-spacing: 0.08em; text-transform: uppercase;
+margin-bottom: 1.8rem;
+animation: fadeUp 0.6s ease both;
+}
+
+h1 {
+font-family: 'Syne', sans-serif;
+font-size: clamp(2.8rem, 7vw, 5.5rem);
+font-weight: 800; line-height: 1.05;
+color: var(--white);
+margin-bottom: 1.5rem;
+animation: fadeUp 0.6s 0.1s ease both;
+}
+h1 em { font-style: normal; color: var(--gold); }
+
+.hero-sub {
+font-size: clamp(1rem, 2vw, 1.2rem);
+color: rgba(255,255,255,0.65);
+max-width: 560px; margin: 0 auto 2.5rem;
+animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-actions {
+display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.btn-primary {
+background: var(--gold); color: var(--forest);
+padding: 0.9rem 2rem; border-radius: 100px;
+font-weight: 700; font-size: 0.95rem; text-decoration: none;
+transition: transform .15s, box-shadow .15s;
+box-shadow: 0 4px 20px rgba(212,168,67,0.35);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(212,168,67,0.45); }
+
+.btn-ghost {
+border: 1.5px solid rgba(255,255,255,0.3); color: var(--white);
+padding: 0.9rem 2rem; border-radius: 100px;
+font-weight: 500; font-size: 0.95rem; text-decoration: none;
+transition: border-color .15s, background .15s;
+}
+.btn-ghost:hover { border-color: var(--mint); background: rgba(168,230,191,0.08); }
+
+/* floating stat pills */
+.hero-stats {
+display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
+margin-top: 3.5rem;
+animation: fadeUp 0.6s 0.4s ease both;
+}
+.stat-pill {
+background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+color: var(--white); padding: 0.6rem 1.3rem; border-radius: 100px;
+font-size: 0.85rem;
+}
+.stat-pill strong { color: var(--mint); }
+
+/* ── SECTION BASE ── */
+section { padding: 5rem 5%; }
+.section-label {
+font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+text-transform: uppercase; color: var(--green);
+margin-bottom: 0.75rem;
+}
+h2 {
+font-family: 'Syne', sans-serif;
+font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800;
+color: var(--forest); line-height: 1.15;
+margin-bottom: 1rem;
+}
+.section-intro { color: var(--muted); max-width: 500px; font-size: 1.05rem; margin-bottom: 3rem; }
+
+/* ── VALUE PROP ── */
+#value { background: var(--white); }
+.value-grid {
+display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+}
+.value-card {
+background: var(--cream); border: 1px solid var(--border);
+border-radius: 1.2rem; padding: 2rem;
+transition: transform .2s, box-shadow .2s;
+}
+.value-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(44,122,75,0.1); }
+.val-icon {
+width: 48px; height: 48px; border-radius: 12px;
+background: linear-gradient(135deg, var(--forest), var(--green));
+display: flex; align-items: center; justify-content: center;
+font-size: 1.3rem; margin-bottom: 1.2rem;
+}
+.value-card h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--forest); }
+.value-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* ── WHO WE SERVE ── */
+#segments { background: var(--cream); }
+.seg-wrap { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.seg-card {
+background: var(--white); border: 1px solid var(--border);
+border-radius: 1.2rem; padding: 1.8rem 2rem;
+display: flex; gap: 1.25rem; align-items: flex-start;
+transition: transform .2s, box-shadow .2s;
+}
+.seg-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(44,122,75,0.09); }
+.seg-emoji { font-size: 2rem; flex-shrink: 0; line-height: 1; margin-top: 0.1rem; }
+.seg-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; color: var(--forest); }
+.seg-card p { font-size: 0.88rem; color: var(--muted); }
+
+/* ── HOW IT WORKS ── */
+#how { background: var(--forest); }
+#how .section-label { color: var(--mint); }
+#how h2 { color: var(--white); }
+#how .section-intro { color: rgba(255,255,255,0.6); }
+
+.steps { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
+.step {
+display: grid; grid-template-columns: 56px 1fr;
+gap: 1.5rem; padding: 2rem 0;
+border-bottom: 1px solid rgba(255,255,255,0.08);
+position: relative;
+}
+.step:last-child { border-bottom: none; }
+.step-num {
+width: 48px; height: 48px; border-radius: 50%;
+border: 1.5px solid rgba(76,175,112,0.4);
+color: var(--mint); font-family: 'Syne', sans-serif;
+font-weight: 700; font-size: 1rem;
+display: flex; align-items: center; justify-content: center;
+flex-shrink: 0;
+}
+.step-body h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+.step-body p { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+
+/* ── PARTNERSHIPS ── */
+#partners { background: var(--white); }
+.partner-row {
+display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+max-width: 900px; margin: 0 auto;
+}
+.partner-chip {
+display: flex; align-items: center; gap: 0.6rem;
+border: 1.5px solid var(--border); background: var(--cream);
+padding: 0.7rem 1.4rem; border-radius: 100px;
+font-size: 0.9rem; font-weight: 600; color: var(--forest);
+transition: border-color .2s, background .2s;
+}
+.partner-chip:hover { border-color: var(--green); background: rgba(44,122,75,0.04); }
+.partner-chip span { font-size: 1.1rem; }
+
+/* ── CTA BANNER ── */
+#cta {
+background: linear-gradient(135deg, var(--forest) 0%, var(--green) 100%);
+text-align: center; padding: 6rem 5%;
+}
+#cta h2 { color: var(--white); max-width: 600px; margin: 0 auto 1rem; }
+#cta p { color: rgba(255,255,255,0.65); max-width: 480px; margin: 0 auto 2.5rem; font-size: 1.05rem; }
+.cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+.btn-light {
+background: var(--white); color: var(--forest);
+padding: 0.9rem 2rem; border-radius: 100px;
+font-weight: 700; font-size: 0.95rem; text-decoration: none;
+transition: transform .15s, box-shadow .15s;
+box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.btn-light:hover { transform: translateY(-2px); }
+
+/* ── FOOTER ── */
+footer {
+background: var(--forest); border-top: 1px solid rgba(255,255,255,0.08);
+padding: 2.5rem 5%; text-align: center;
+color: rgba(255,255,255,0.4); font-size: 0.85rem;
+}
+footer .logo { font-size: 1.1rem; margin-bottom: 0.5rem; display: block; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(18px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+opacity: 0; transform: translateY(24px);
+transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+nav ul { display: none; }
+.seg-wrap { grid-template-columns: 1fr; }
+.step { grid-template-columns: 44px 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+*, .reveal { transition: none !important; animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<div class="logo">ECO <span>TAILOR</span></div>
+<ul>
+<li><a href="#value">Features</a></li>
+<li><a href="#segments">Who It's For</a></li>
+<li><a href="#how">How It Works</a></li>
+<li><a href="#partners">Partners</a></li>
+<li><a href="#cta" class="nav-cta">Get Started Free</a></li>
+</ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-inner">
+<div class="hero-badge">🌿 AI-Powered Learning Platform</div>
+<h1>AI education,<br><em>tailored for you.</em></h1>
+<p class="hero-sub">Free courses, personalized help, and simple explanations — making AI accessible for students, businesses, and beginners everywhere.</p>
+<div class="hero-actions">
+<a href="#cta" class="btn-primary">Start Learning Free →</a>
+<a href="#how" class="btn-ghost">See How It Works</a>
+</div>
+<div class="hero-stats">
+<div class="stat-pill"><strong>Free</strong> Trial for New Users</div>
+<div class="stat-pill"><strong>24/7</strong> AI Chatbot Support</div>
+<div class="stat-pill"><strong>Zero</strong> Jargon, Zero Confusion</div>
+</div>
+</div>
+</section>
+
+<!-- VALUE PROPOSITIONS -->
+<section id="value">
+<div style="max-width:1100px; margin:0 auto;">
+<div class="section-label">What We Offer</div>
+<h2>Everything you need to<br>learn and use AI</h2>
+<p class="section-intro">No experience required. Eco Tailor meets you where you are.</p>
+<div class="value-grid">
+<div class="value-card reveal">
+<div class="val-icon">📚</div>
+<h3>Free AI Courses</h3>
+<p>Structured learning paths from absolute beginner to confident user — completely free to start.</p>
+</div>
+<div class="value-card reveal">
+<div class="val-icon">🤖</div>
+<h3>24/7 AI Chatbot</h3>
+<p>Get instant help, answers, and assistance any time of day from our always-on AI assistant.</p>
+</div>
+<div class="value-card reveal">
+<div class="val-icon">🎯</div>
+<h3>Personalized Help</h3>
+<p>Explanations and guidance shaped to your specific goals, pace, and background.</p>
+</div>
+<div class="value-card reveal">
+<div class="val-icon">💡</div>
+<h3>Simple Language</h3>
+<p>AI concepts explained in plain English — no confusing jargon, no technical gatekeeping.</p>
+</div>
+<div class="value-card reveal">
+<div class="val-icon">💬</div>
+<h3>Community Forums</h3>
+<p>Join a growing community of learners. Ask questions, share wins, and grow together.</p>
+</div>
+<div class="value-card reveal">
+<div class="val-icon">⚡</div>
+<h3>Free Trial Subscription</h3>
+<p>Try everything risk-free. No credit card required to get started with your AI education.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CUSTOMER SEGMENTS -->
+<section id="segments">
+<div style="max-width:1100px; margin:0 auto;">
+<div class="section-label">Who It's For</div>
+<h2>Built for every kind of learner</h2>
+<p class="section-intro">Whether you're in school, running a business, or just curious — Eco Tailor was made for you.</p>
+<div class="seg-wrap">
+<div class="seg-card reveal">
+<div class="seg-emoji">🎓</div>
+<div>
+<h3>Students</h3>
+<p>Learning about AI for school projects, homework, and future careers. Get ahead of the curve with clear, school-friendly materials.</p>
+</div>
+</div>
+<div class="seg-card reveal">
+<div class="seg-emoji">🏢</div>
+<div>
+<h3>Small Businesses</h3>
+<p>Want AI help but can't afford enterprise tools? Eco Tailor gives you affordable, practical AI skills to boost productivity.</p>
+</div>
+</div>
+<div class="seg-card reveal">
+<div class="seg-emoji">👩‍🏫</div>
+<div>
+<h3>Teachers & Schools</h3>
+<p>Find easy-to-use AI curricula and classroom tools. Help your students build skills that matter for the future.</p>
+</div>
+</div>
+<div class="seg-card reveal">
+<div class="seg-emoji">🚀</div>
+<div>
+<h3>Entrepreneurs</h3>
+<p>Improve your workflows, automate the repetitive stuff, and build smarter. Eco Tailor helps you do more with less.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+<div style="max-width:900px; margin:0 auto;">
+<div class="section-label">How It Works</div>
+<h2>Up and running in minutes</h2>
+<p class="section-intro">No complicated setup. Just show up and start learning.</p>
+<div class="steps">
+<div class="step reveal">
+<div class="step-num">1</div>
+<div class="step-body">
+<h3>Create your free account</h3>
+<p>Sign up in seconds — no credit card, no commitment. Your free trial gives you full access to get started.</p>
+</div>
+</div>
+<div class="step reveal">
+<div class="step-num">2</div>
+<div class="step-body">
+<h3>Tell us what you want to learn</h3>
+<p>Pick your goal — whether it's understanding AI basics, using tools for your business, or teaching it to others. We tailor the path.</p>
+</div>
+</div>
+<div class="step reveal">
+<div class="step-num">3</div>
+<div class="step-body">
+<h3>Learn at your own pace</h3>
+<p>Follow guided courses, chat with our 24/7 AI assistant, and connect with the community whenever you need support.</p>
+</div>
+</div>
+<div class="step reveal">
+<div class="step-num">4</div>
+<div class="step-body">
+<h3>Apply it to your real life</h3>
+<p>Use what you learn right away — in class, at work, or in your own projects. Practical skills, not just theory.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PARTNERSHIPS -->
+<section id="partners">
+<div style="max-width:1100px; margin:0 auto; text-align:center;">
+<div class="section-label">Powered By</div>
+<h2>Built on the best AI infrastructure</h2>
+<p class="section-intro" style="margin:0 auto 2.5rem;">Our partnerships bring you world-class AI tools at an accessible price.</p>
+<div class="partner-row">
+<div class="partner-chip reveal"><span>🧠</span> OpenAI</div>
+<div class="partner-chip reveal"><span>✨</span> Google Gemini</div>
+<div class="partner-chip reveal"><span>💼</span> Microsoft Copilot</div>
+<div class="partner-chip reveal"><span>🏫</span> Schools & Teachers</div>
+<div class="partner-chip reveal"><span>💻</span> Software Sponsors</div>
+</div>
+</div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta">
+<h2>Start your AI journey today — it's free.</h2>
+<p>Join students, teachers, and entrepreneurs already learning with Eco Tailor. No experience needed.</p>
+<div class="cta-actions">
+<a href="#" class="btn-light">Get Started Free →</a>
+<a href="#segments" class="btn-ghost" style="color:rgba(255,255,255,0.85); border-color:rgba(255,255,255,0.3);">Learn More</a>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<span class="logo">ECO <span style="color:var(--gold)">TAILOR</span></span>
+<p>AI-Powered Learning for Everyone &nbsp;·&nbsp; Designed by Sean Neal</p>
+<p style="margin-top:0.5rem; font-size:0.78rem; opacity:0.5;">© 2026 Eco Tailor. All rights reserved.</p>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
